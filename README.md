@@ -20,7 +20,7 @@
 
 - **PR 규칙**
 
-  PR 제목: 대회 이름 / GithubId  
+  PR 제목: 대회 이름 / AtCoder 핸들
   ex) ABC### / cnvxlns
   comment는 각 문제마다 풀이 방법과 어려웠던 내용을 설명합니다.
 
@@ -35,7 +35,7 @@
 ### fork 후 원격 저장소에서 로컬 저장소로 파일 받기
 
 ```bash
-git clone https://github.com/[본인 AtCoder 아이디]/2026-AtCoder-Study
+git clone https://github.com/[본인 Github 아이디]/2026-AtCoder-Study
 ```
 
 ### 로컬에서 파일 저장 후 원격 저장소로 올리기
