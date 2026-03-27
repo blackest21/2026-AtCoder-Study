@@ -3,57 +3,57 @@
 #include <queue>
 using namespace std;
 
+vector<vector<char>> v;
+queue<pair<int, int>> q;
+int h, w, ans = 0;
+int dx[4] = {0, 1, 0, -1};
+int dy[4] = {1, 0, -1, 0};
+
+void bfs(int r, int c){
+    bool isDot = false;
+    if (v[r][c] == '.'){
+        q.emplace(r, c);
+        v[r][c] = '#';
+        isDot = true;
+    }
+
+    bool isBorder = false;
+    while(!q.empty()){
+        int qff = q.front().first, qfs = q.front().second;
+        
+        for(int i=0; i<4; ++i){
+            if(qff+dx[i] < 0 || qff+dx[i] > h-1 || qfs+dy[i] < 0 || qfs+dy[i] > w-1){
+                isBorder = true;
+                continue;
+            }
+            if(v[qff+dx[i]][qfs+dy[i]] == '.'){
+                q.emplace(qff+dx[i], qfs+dy[i]);
+                v[qff+dx[i]][qfs+dy[i]] = '#';
+            }
+        }
+        q.pop();
+    }
+    if(!isBorder && isDot)
+        ans++;
+}
+
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
-
-    int h, w;
+    
     cin >> h >> w;
-
-    vector<vector<char>> v(h, vector<char>(w, 0));
-    vector<vector<int>> visited(h, vector<int>(w, 0));
-    queue<pair<int, int>> q;
-    queue<pair<int, int>> q2;
-    for(int r=0; r<h; ++r){
-        for(int c=0; c<w; ++c){
-            cin >> v[r][c];
-            if(v[r][c] == '.')
-                q.emplace(r, c);
+    v.assign(h, vector<char>(w, 0));
+    
+    for(int i=0; i<h; ++i){
+        for(int j=0; j<w; ++j){
+            cin >> v[i][j];
         }
     }
-    
-    int dx[4] = {1, 0, -1, 0};
-    int dy[4] = {0, 1, 0, -1};
-    int ans = 0;
-    while(!q.empty()){
-        int r = q.front().first; int c = q.front().second;
-        if(visited[r][c]){
-            q.pop();
-            continue;
-        }
-        visited[r][c] = 1;
 
-        q2.emplace(r, c);
-        bool flag = false;
-        while(!q2.empty()){
-            int r2 = q2.front().first; int c2 = q2.front().second;
-            visited[r2][c2] = 1;
-            for(int i=0; i<4; ++i){
-                if(r2+dx[i] < 0 || r2+dx[i] >= h || c2+dy[i] < 0 || c2+dy[i] >= w){
-                    flag = true;
-                    break;
-                }
-                else if(v[r2+dx[i]][c2+dy[i]] == '.' && !visited[r2+dx[i]][c2+dy[i]]){
-                    q2.emplace(r2+dx[i], c2+dy[i]);
-                }
-            }
-            q2.pop();
-            if(!flag && q2.empty())
-                ans++;
+    for(int i=0; i<h; ++i){
+        for(int j=0; j<w; ++j){
+            bfs(i, j);
         }
-        q.pop();
-        
     }
     cout << ans;
-    
 }
